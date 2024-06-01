@@ -27,7 +27,7 @@ df["date_added"] = df["date_added"].apply(convert_date)
 
 for index, row in df.iterrows():
     query = """
-    INSERT INTO content (type, title, director, cast, country, date_added, release_year, rating, duration, listed_in, description)
+    INSERT INTO content (type1, title, director, cast, country, date_added, release_year, rating, duration, listed_in, description)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
 
