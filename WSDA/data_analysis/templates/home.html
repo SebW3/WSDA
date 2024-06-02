@@ -1,3 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+</head>
+<body>
 <h1>Hello World</h1>
+    <a href="{% url 'home' %}">Home</a>
+    <form class="d-flex" method=POST action="{% url 'search_result' %}">
+        {% csrf_token %}
+
+        <input class="form-control me-2" type="search" placeholder="Search something" aria-label="Search" name="searched">
+        <br>
+        <input type="checkbox" id="TV_show" name="TV show">
+        <label for="TV_show">TV show</label>
+        <input type="checkbox" id="Movie" name="Movie">
+        <label for="Movie">Movie</label><br>
+
+        <button type="submit">Search</button>
+    </form>
+
 <p>testing {{ test }}</p>
 <h2>result {{ result }}</h2>
+
+{% block content %} {% endblock %}
