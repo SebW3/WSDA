@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 from .models import Entry
 
 # Create your views here.
@@ -15,13 +16,16 @@ def home(request):
 
 def search_result(request):
     if request.method == "POST":
-        test = None
+        query = Q()
+
         if "TV show" in request.POST and "Movie" in request.POST:
             type1 = None
         elif "TV show" in request.POST:
             type1 = "TV show"
+            query &= Q(type1=type1)
         elif "Movie" in request.POST:
             type1 = "Movie"
+            query &= Q(type1=type1)
         else:
             type1 = None
             if len(request.POST["searched"].strip()) == 0:
@@ -37,8 +41,17 @@ def search_result(request):
         else:
             result = Entry.objects.filter(title__contains=searched)
 
+
+        genres = request.POST.getlist("genres")
+
+        for genre in genres:
+            query &= Q(listed_in__contains=genre)
+        test=genres
+        # Wykonanie zapytania
+        result = Entry.objects.filter(query)
+
         query = result.query
 
-        return render(request, "search_result.html", {"searched" : searched, "result" : result, "test" : test, "query" : query})
+        return render(request, "search_result.html", {"searched" : searched, "result" : result, "test" : test, "query" : query, "request_POST" : request.POST})
     else:
         return render(request, "search_result.html")

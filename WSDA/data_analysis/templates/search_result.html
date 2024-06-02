@@ -6,7 +6,7 @@
 		<h1>You Searched For {{ searched }}</h1>
 		<br/>
 		{% for item in result %}
-			<b>{{ item }}</b> {{ item.type1 }} {{ item.description}} <br>
+			<b>{{ item }}</b> {{ item.type1 }} {{ item.listed_in}} <br>
 		{% endfor %}
 	{% else %}
 		<h1>Hey! You Forgot To Search...</h1>

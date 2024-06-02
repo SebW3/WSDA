@@ -5,6 +5,7 @@
 </head>
 <body>
 <h1>Hello World</h1>
+    {{ request_POST }}
     <a href="{% url 'home' %}">Home</a>
     <form class="d-flex" method=POST action="{% url 'search_result' %}">
         {% csrf_token %}
@@ -14,8 +15,55 @@
         <input type="checkbox" id="TV_show" name="TV show">
         <label for="TV_show">TV show</label>
         <input type="checkbox" id="Movie" name="Movie">
-        <label for="Movie">Movie</label><br>
+        <label for="Movie">Movie</label>
+        <br>
 
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="genres" value="Documentaries">Documentaries</label>
+            <label><input type="checkbox" name="genres" value="International TV Shows">International TV Shows</label>
+            <label><input type="checkbox" name="genres" value="TV Dramas">TV Dramas</label>
+            <label><input type="checkbox" name="genres" value="TV Mysteries">TV Mysteries</label>
+            <label><input type="checkbox" name="genres" value="Crime TV Shows">Crime TV Shows</label>
+            <label><input type="checkbox" name="genres" value="TV Action & Adventure">TV Action & Adventure</label>
+            <label><input type="checkbox" name="genres" value="Docuseries">Docuseries</label>
+            <label><input type="checkbox" name="genres" value="Reality TV">Reality TV</label>
+            <label><input type="checkbox" name="genres" value="Romantic TV Shows">Romantic TV Shows</label>
+            <label><input type="checkbox" name="genres" value="TV Comedies">TV Comedies</label>
+            <label><input type="checkbox" name="genres" value="TV Horror">TV Horror</label>
+            <label><input type="checkbox" name="genres" value="Children & Family Movies">Children & Family Movies</label>
+            <label><input type="checkbox" name="genres" value="Dramas">Dramas</label>
+            <label><input type="checkbox" name="genres" value="Independent Movies">Independent Movies</label>
+            <label><input type="checkbox" name="genres" value="International Movies">International Movies</label>
+            <label><input type="checkbox" name="genres" value="British TV Shows">British TV Shows</label>
+            <label><input type="checkbox" name="genres" value="Comedies">Comedies</label>
+            <label><input type="checkbox" name="genres" value="Spanish-Language TV Shows">Spanish-Language TV Shows</label>
+            <label><input type="checkbox" name="genres" value="Thrillers">Thrillers</label>
+            <label><input type="checkbox" name="genres" value="Romantic Movies">Romantic Movies</label>
+            <label><input type="checkbox" name="genres" value="Music & Musicals">Music & Musicals</label>
+            <label><input type="checkbox" name="genres" value="Horror Movies">Horror Movies</label>
+            <label><input type="checkbox" name="genres" value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</label>
+            <label><input type="checkbox" name="genres" value="TV Thrillers">TV Thrillers</label>
+            <label><input type="checkbox" name="genres" value="Kids' TV">Kids' TV</label>
+            <label><input type="checkbox" name="genres" value="Action & Adventure">Action & Adventure</label>
+            <label><input type="checkbox" name="genres" value="TV Sci-Fi & Fantasy">TV Sci-Fi & Fantasy</label>
+            <label><input type="checkbox" name="genres" value="Classic Movies">Classic Movies</label>
+            <label><input type="checkbox" name="genres" value="Anime Features">Anime Features</label>
+            <label><input type="checkbox" name="genres" value="Sports Movies">Sports Movies</label>
+            <label><input type="checkbox" name="genres" value="Anime Series">Anime Series</label>
+            <label><input type="checkbox" name="genres" value="Korean TV Shows">Korean TV Shows</label>
+            <label><input type="checkbox" name="genres" value="Science & Nature TV">Science & Nature TV</label>
+            <label><input type="checkbox" name="genres" value="Teen TV Shows">Teen TV Shows</label>
+            <label><input type="checkbox" name="genres" value="Cult Movies">Cult Movies</label>
+            <label><input type="checkbox" name="genres" value="TV Shows">TV Shows</label>
+            <label><input type="checkbox" name="genres" value="Faith & Spirituality">Faith & Spirituality</label>
+            <label><input type="checkbox" name="genres" value="LGBTQ Movies">LGBTQ Movies</label>
+            <label><input type="checkbox" name="genres" value="Stand-Up Comedy">Stand-Up Comedy</label>
+            <label><input type="checkbox" name="genres" value="Movies">Movies</label>
+            <label><input type="checkbox" name="genres" value="Stand-Up Comedy & Talk Shows">Stand-Up Comedy & Talk Shows</label>
+            <label><input type="checkbox" name="genres" value="Classic & Cult TV">Classic & Cult TV</label>
+        </div>
+
+        <br>
         <button type="submit">Search</button>
     </form>
 
