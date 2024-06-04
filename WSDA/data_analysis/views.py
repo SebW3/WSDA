@@ -4,53 +4,38 @@ from .models import Entry
 
 # Create your views here.
 def home(request):
-    # from django.db import reset_queries, connection
-    # reset_queries()
-
-    # result = Entry.objects.filter(id=2)
-    # test = Entry.objects.filter(id=2).query
-    result = None
-    test = None
-
-    return render(request, "home.html", {"result" : result, "test" : test})
+    return render(request, "home.html", {"result" : "Your results will be shown here"})
 
 def search_result(request):
     if request.method == "POST":
         query = Q()
 
-        if "TV show" in request.POST and "Movie" in request.POST:
-            type1 = None
-        elif "TV show" in request.POST:
-            type1 = "TV show"
-            query &= Q(type1=type1)
-        elif "Movie" in request.POST:
-            type1 = "Movie"
-            query &= Q(type1=type1)
-        else:
-            type1 = None
-            if len(request.POST["searched"].strip()) == 0:
-                return render(request, "search_result.html")
-            test = str(request.POST)
+        type1 = request.POST.getlist("type1")
+        if len(type1) == 1:
+            query &= Q(type1=type1[0])
+
 
         searched = request.POST["searched"]
-
-        if type1 and searched:
-            result = Entry.objects.filter(title__contains=searched, type1=type1)
-        elif type1:
-            result = Entry.objects.filter(type1=type1)
-        else:
-            result = Entry.objects.filter(title__contains=searched)
+        if len(searched.strip()) > 0:
+            query &= Q(title__contains=searched)
 
 
         genres = request.POST.getlist("genres")
-
         for genre in genres:
             query &= Q(listed_in__contains=genre)
-        test=genres
-        # Wykonanie zapytania
-        result = Entry.objects.filter(query)
 
+
+        if len(searched) == 0 and len(type1) == 0 and len(genres) == 0:  # if no filters = return blank page
+            return render(request, "search_result.html")
+
+        # run query
+        result = Entry.objects.filter(query)
         query = result.query
+
+        if len(result) == 0:
+            result = ["No content with these filters"]
+
+        test = [searched, type1, genres]
 
         return render(request, "search_result.html", {"searched" : searched, "result" : result, "test" : test, "query" : query, "request_POST" : request.POST})
     else:
