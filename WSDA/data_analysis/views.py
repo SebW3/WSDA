@@ -25,26 +25,35 @@ def search_result(request):
             query &= Q(listed_in__contains=genre)
 
         age_rating = request.POST.getlist("age_rating")
-        age_condition = Q()
-        for age in age_rating:
-            if age == "Little kids":
-                age_condition |= Q(rating="G")
-                age_condition |= Q(rating="TV-Y")
-                age_condition |= Q(rating="TV-G")
-            if age == "Older kids":
-                age_condition |= Q(rating="PG")
-                age_condition |= Q(rating="TV-Y7")
-                age_condition |= Q(rating="TV-Y7-FV")
-                age_condition |= Q(rating="TV-PG")
-            if age == "Teens":
-                age_condition |= Q(rating="PG-13")
-                age_condition |= Q(rating="TV-14")
-            if age == "Mature":
-                age_condition |= Q(rating="R")
-                age_condition |= Q(rating="NC-17")
-                age_condition |= Q(rating="TV-MA")
+        if age_rating:
+            age_condition = Q()
+            for age in age_rating:
+                if age == "Little kids":
+                    age_condition |= Q(rating="G")
+                    age_condition |= Q(rating="TV-Y")
+                    age_condition |= Q(rating="TV-G")
+                if age == "Older kids":
+                    age_condition |= Q(rating="PG")
+                    age_condition |= Q(rating="TV-Y7")
+                    age_condition |= Q(rating="TV-Y7-FV")
+                    age_condition |= Q(rating="TV-PG")
+                if age == "Teens":
+                    age_condition |= Q(rating="PG-13")
+                    age_condition |= Q(rating="TV-14")
+                if age == "Mature":
+                    age_condition |= Q(rating="R")
+                    age_condition |= Q(rating="NC-17")
+                    age_condition |= Q(rating="TV-MA")
 
             query &= Q(age_condition)
+
+        release_year = request.POST.getlist("release_year")
+        if release_year:
+            release_year_condition = Q()
+            for year in release_year:
+                release_year_condition |= Q(release_year=f'{year}')
+
+            query &= Q(release_year_condition)
 
         if len(query) == 0:  # if no filters = return blank page
             return render(request, "search_result.html")
