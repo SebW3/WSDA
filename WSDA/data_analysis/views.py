@@ -14,6 +14,26 @@ def search_result(request):
         if len(type1) == 1:
             query &= Q(type1=type1[0])
 
+            # if only one type selected
+            if request.POST["Movie length"] and request.POST.getlist("type1")[0] == "Movie":
+                length = request.POST["Movie length"]
+                if len(length) == 1:
+                    query &= Q(duration__regex=f'^[0123456789] ')
+                else:
+                    query &= Q(duration__regex=f'^{length[:-1]}[0123456789] ') | Q(duration__regex=f'^{str(int(length)-10)[:-1]}[0123456789] ')
+
+            if request.POST["Number of seasons"] and request.POST.getlist("type1")[0] == "TV show":
+                number = request.POST["Number of seasons"]
+                query &= Q(duration__regex=f'^{number} .eason*')
+
+        elif len(type1) == 2:
+            length = request.POST["Movie length"]
+            number = request.POST["Number of seasons"]
+            if len(length) == 1:
+                query &= Q(duration__regex=f'^[0123456789] ') | Q(duration__regex=f'^{number} .eason*')
+            else:
+                query &= Q(duration__regex=f'^{length[:-1]}[0123456789] ') | Q(duration__regex=f'^{str(int(length) - 10)[:-1]}[0123456789] ') | Q(duration__regex=f'^{number} .eason*')
+
 
         searched = request.POST["searched"]
         if len(searched.strip()) > 0:

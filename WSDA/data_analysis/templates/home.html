@@ -46,7 +46,9 @@
         <br>
         <div class="checkbox-group">
             <label><input type="checkbox" name="type1" value="TV show">TV show</label>
+            <input type="search" placeholder="Number of seasons" aria-label="Number of seasons" name="Number of seasons">
             <label><input type="checkbox" name="type1" value="Movie">Movie</label>
+            <input type="search" placeholder="Movie length (± 10 min)" aria-label="Movie length" name="Movie length">
         </div>
         <br>
 
@@ -229,7 +231,7 @@
 
             let inputName;
             if (index === 0) {
-                inputName = 'selected_options_1';
+                inputName = 'genres';
             } else if (index === 1) {
                 inputName = 'release_year';
             } else if (index === 2) {
