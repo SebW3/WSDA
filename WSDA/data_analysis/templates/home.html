@@ -191,8 +191,26 @@
             </div>
         </div>
         <div id="selected-options-container-2"></div>
+<br>
+        <!-- Dropdown 3 -->
+        <div class="dropdown-container">
+            <div class="dropdown-button" id="dropdown-button-3" onclick="toggleDropdown('dropdown-3')">Select countries</div>
+            <div class="dropdown" id="dropdown-3">
+                <div class="option" data-value="United States">United States</div>
+                <div class="option" data-value="India">India</div>
+                <div class="option" data-value="United Kingdom">United Kingdom</div>
+                <div class="option" data-value="Japan">Japan</div>
+                <div class="option" data-value="South Korea">South Korea</div>
+                <div class="option" data-value="Canada">Canada</div>
+                <div class="option" data-value="Spain">Spain</div>
+                <div class="option" data-value="France">France</div>
+                <div class="option" data-value="Mexico">Mexico</div>
+                <div class="option" data-value="Egypt">Egypt</div>
+            </div>
+        </div>
+        <div id="selected-options-container-3"></div>
 
-
+        <br>
         <button type="submit">Search</button>
     </form>
 
@@ -208,7 +226,15 @@
             const dropdownId = `dropdown-${index + 1}`;
             const buttonId = `dropdown-button-${index + 1}`;
             const inputContainerId = `selected-options-container-${index + 1}`;
-            const inputName = index === 0 ? 'genres' : 'release_year';
+
+            let inputName;
+            if (index === 0) {
+                inputName = 'selected_options_1';
+            } else if (index === 1) {
+                inputName = 'release_year';
+            } else if (index === 2) {
+                inputName = 'countries';
+            }
 
             container.querySelectorAll('.option').forEach(option => {
                 option.addEventListener('click', function() {

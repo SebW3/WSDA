@@ -55,6 +55,15 @@ def search_result(request):
 
             query &= Q(release_year_condition)
 
+        countries = request.POST.getlist("countries")
+        if countries:
+            countries_condition = Q()
+            for country in countries:
+                countries_condition |= Q(country=f'{country}')
+
+            query &= Q(countries_condition)
+
+
         if len(query) == 0:  # if no filters = return blank page
             return render(request, "search_result.html")
 
