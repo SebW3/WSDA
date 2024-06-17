@@ -1,222 +1,303 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>My Website</title>
     <style>
-        .dropdown-container {
-            position: relative;
-            width: 200px;
-        }
-        .dropdown {
-            display: none;
-            border: 1px solid #ccc;
-            max-height: 150px;
-            overflow-y: auto;
-            position: absolute;
-            width: 100%;
-            background-color: white;
-            z-index: 1000;
-        }
-        .option {
-            padding: 10px;
-            cursor: pointer;
-        }
-        .option.selected {
-            background-color: #007bff;
-            color: white;
-        }
-        .dropdown-button {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            text-align: left;
-            background-color: white;
-        }
-    </style>
+body {
+    font-family: Arial, sans-serif;
+<!--    display: flex;-->
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+.search-form {
+    text-align: center;
+}
+
+.form-group {
+<!--    display: flex;-->
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-group .form-control {
+    margin-right: 10px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.dropdowns {
+    display: flex;
+}
+
+.dropdown-container {
+    position: relative;
+    width: 200px;
+    margin-right: 10px;
+}
+
+.dropdown {
+    display: none;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+}
+
+.option {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.option.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.dropdown-button {
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    background-color: white;
+}
+
+.checkboxes {
+    margin-bottom: 10px;
+}
+
+.checkboxes label,
+.checkboxes input {
+    margin: 5px;
+}
+
+.age-rating {
+    margin-bottom: 10px;
+}
+
+.age-rating label {
+    margin: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+.search-results {
+    margin-top: 20px;
+    text-align: left;
+}
+
+</style>
 </head>
 <body>
-<h1>Hello World</h1>
-    {{ request_POST }}
-    <a href="{% url 'home' %}">Home</a>
-    <form class="d-flex" method=POST action="{% url 'search_result' %}">
+    <form class="search-form" method="POST" action="{% url 'search_result' %}">
         {% csrf_token %}
+        <div class="form-group">
+            <input type="text" placeholder="Name" name="searched" class="form-control">
 
-        <input class="form-control me-2" type="search" placeholder="Search something" aria-label="Search" name="searched">
-        <br>
-        <div class="checkbox-group">
-            <label><input type="checkbox" name="type1" value="TV show">TV show</label>
-            <input type="search" placeholder="Number of seasons" aria-label="Number of seasons" name="Number of seasons">
-            <label><input type="checkbox" name="type1" value="Movie">Movie</label>
-            <input type="search" placeholder="Movie length (± 10 min)" aria-label="Movie length" name="Movie length">
-        </div>
-        <br>
+            <div class="dropdowns">
+                <!-- Dropdown 1 -->
+                <div class="dropdown-container">
+                    <div class="dropdown-button" id="dropdown-button-1" onclick="toggleDropdown('dropdown-1')">Select genres</div>
+                    <div class="dropdown" id="dropdown-1">
+                        <div class="option" data-value="Documentaries">Documentaries</div>
+                        <div class="option" data-value="International TV Shows">International TV Shows</div>
+                        <div class="option" data-value="TV Dramas">TV Dramas</div>
+                        <div class="option" data-value="TV Mysteries">TV Mysteries</div>
+                        <div class="option" data-value="Crime TV Shows">Crime TV Shows</div>
+                        <div class="option" data-value="TV Action & Adventure">TV Action & Adventure</div>
+                        <div class="option" data-value="Docuseries">Docuseries</div>
+                        <div class="option" data-value="Reality TV">Reality TV</div>
+                        <div class="option" data-value="Romantic TV Shows">Romantic TV Shows</div>
+                        <div class="option" data-value="TV Comedies">TV Comedies</div>
+                        <div class="option" data-value="TV Horror">TV Horror</div>
+                        <div class="option" data-value="Children & Family Movies">Children & Family Movies</div>
+                        <div class="option" data-value="Dramas">Dramas</div>
+                        <div class="option" data-value="Independent Movies">Independent Movies</div>
+                        <div class="option" data-value="International Movies">International Movies</div>
+                        <div class="option" data-value="British TV Shows">British TV Shows</div>
+                        <div class="option" data-value="Comedies">Comedies</div>
+                        <div class="option" data-value="Spanish-Language TV Shows">Spanish-Language TV Shows</div>
+                        <div class="option" data-value="Thrillers">Thrillers</div>
+                        <div class="option" data-value="Romantic Movies">Romantic Movies</div>
+                        <div class="option" data-value="Music & Musicals">Music & Musicals</div>
+                        <div class="option" data-value="Horror Movies">Horror Movies</div>
+                        <div class="option" data-value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</div>
+                        <div class="option" data-value="TV Thrillers">TV Thrillers</div>
+                        <div class="option" data-value="Kids' TV">Kids' TV</div>
+                        <div class="option" data-value="Action & Adventure">Action & Adventure</div>
+                        <div class="option" data-value="TV Sci-Fi & Fantasy">TV Sci-Fi & Fantasy</div>
+                        <div class="option" data-value="Classic Movies">Classic Movies</div>
+                        <div class="option" data-value="Anime Features">Anime Features</div>
+                        <div class="option" data-value="Sports Movies">Sports Movies</div>
+                        <div class="option" data-value="Anime Series">Anime Series</div>
+                        <div class="option" data-value="Korean TV Shows">Korean TV Shows</div>
+                        <div class="option" data-value="Science & Nature TV">Science & Nature TV</div>
+                        <div class="option" data-value="Teen TV Shows">Teen TV Shows</div>
+                        <div class="option" data-value="Cult Movies">Cult Movies</div>
+                        <div class="option" data-value="TV Shows">TV Shows</div>
+                        <div class="option" data-value="Faith & Spirituality">Faith & Spirituality</div>
+                        <div class="option" data-value="LGBTQ Movies">LGBTQ Movies</div>
+                        <div class="option" data-value="Stand-Up Comedy">Stand-Up Comedy</div>
+                        <div class="option" data-value="Movies">Movies</div>
+                        <div class="option" data-value="Stand-Up Comedy & Talk Shows">Stand-Up Comedy & Talk Shows</div>
+                        <div class="option" data-value="Classic & Cult TV">Classic & Cult TV</div>
+                    </div>
+                </div>
+                <div id="selected-options-container-1"></div>
 
-        <div class="checkbox-group">
-            Select age rating<br>
-            <label><input type="checkbox" name="age_rating" value="Little kids">Little kids</label>
-            <label><input type="checkbox" name="age_rating" value="Older kids">Older kids</label>
-            <label><input type="checkbox" name="age_rating" value="Teens">Teens</label>
-            <label><input type="checkbox" name="age_rating" value="Mature">Mature</label>
-        </div>
-        <br><br>
+                <!-- Dropdown 2 -->
+                <div class="dropdown-container">
+                    <div class="dropdown-button" id="dropdown-button-2" onclick="toggleDropdown('dropdown-2')">Select release years</div>
+                    <div class="dropdown" id="dropdown-2">
+                        <div class="option" data-value="2021">2021</div>
+                        <div class="option" data-value="2020">2020</div>
+                        <div class="option" data-value="2019">2019</div>
+                        <div class="option" data-value="2018">2018</div>
+                        <div class="option" data-value="2017">2017</div>
+                        <div class="option" data-value="2016">2016</div>
+                        <div class="option" data-value="2015">2015</div>
+                        <div class="option" data-value="2014">2014</div>
+                        <div class="option" data-value="2013">2013</div>
+                        <div class="option" data-value="2012">2012</div>
+                        <div class="option" data-value="2011">2011</div>
+                        <div class="option" data-value="2010">2010</div>
+                        <div class="option" data-value="2009">2009</div>
+                        <div class="option" data-value="2008">2008</div>
+                        <div class="option" data-value="2007">2007</div>
+                        <div class="option" data-value="2006">2006</div>
+                        <div class="option" data-value="2005">2005</div>
+                        <div class="option" data-value="2004">2004</div>
+                        <div class="option" data-value="2003">2003</div>
+                        <div class="option" data-value="2002">2002</div>
+                        <div class="option" data-value="2001">2001</div>
+                        <div class="option" data-value="2000">2000</div>
+                        <div class="option" data-value="1999">1999</div>
+                        <div class="option" data-value="1998">1998</div>
+                        <div class="option" data-value="1997">1997</div>
+                        <div class="option" data-value="1996">1996</div>
+                        <div class="option" data-value="1995">1995</div>
+                        <div class="option" data-value="1994">1994</div>
+                        <div class="option" data-value="1993">1993</div>
+                        <div class="option" data-value="1992">1992</div>
+                        <div class="option" data-value="1991">1991</div>
+                        <div class="option" data-value="1990">1990</div>
+                        <div class="option" data-value="1989">1989</div>
+                        <div class="option" data-value="1988">1988</div>
+                        <div class="option" data-value="1987">1987</div>
+                        <div class="option" data-value="1986">1986</div>
+                        <div class="option" data-value="1985">1985</div>
+                        <div class="option" data-value="1984">1984</div>
+                        <div class="option" data-value="1983">1983</div>
+                        <div class="option" data-value="1982">1982</div>
+                        <div class="option" data-value="1981">1981</div>
+                        <div class="option" data-value="1980">1980</div>
+                        <div class="option" data-value="1979">1979</div>
+                        <div class="option" data-value="1978">1978</div>
+                        <div class="option" data-value="1977">1977</div>
+                        <div class="option" data-value="1976">1976</div>
+                        <div class="option" data-value="1975">1975</div>
+                        <div class="option" data-value="1974">1974</div>
+                        <div class="option" data-value="1973">1973</div>
+                        <div class="option" data-value="1972">1972</div>
+                        <div class="option" data-value="1971">1971</div>
+                        <div class="option" data-value="1970">1970</div>
+                        <div class="option" data-value="1969">1969</div>
+                        <div class="option" data-value="1968">1968</div>
+                        <div class="option" data-value="1967">1967</div>
+                        <div class="option" data-value="1966">1966</div>
+                        <div class="option" data-value="1965">1965</div>
+                        <div class="option" data-value="1964">1964</div>
+                        <div class="option" data-value="1963">1963</div>
+                        <div class="option" data-value="1962">1962</div>
+                        <div class="option" data-value="1961">1961</div>
+                        <div class="option" data-value="1960">1960</div>
+                        <div class="option" data-value="1959">1959</div>
+                        <div class="option" data-value="1958">1958</div>
+                        <div class="option" data-value="1956">1956</div>
+                        <div class="option" data-value="1955">1955</div>
+                        <div class="option" data-value="1954">1954</div>
+                        <div class="option" data-value="1947">1947</div>
+                        <div class="option" data-value="1946">1946</div>
+                        <div class="option" data-value="1945">1945</div>
+                        <div class="option" data-value="1944">1944</div>
+                        <div class="option" data-value="1943">1943</div>
+                        <div class="option" data-value="1942">1942</div>
+                        <div class="option" data-value="1925">1925</div>
+                    </div>
+                </div>
+                <div id="selected-options-container-2"></div>
 
-        <!-- Dropdown 1 -->
-        <div class="dropdown-container">
-            <div class="dropdown-button" id="dropdown-button-1" onclick="toggleDropdown('dropdown-1')">Select genres</div>
-            <div class="dropdown" id="dropdown-1">
-                <div class="option" data-value="Documentaries">Documentaries</div>
-                <div class="option" data-value="International TV Shows">International TV Shows</div>
-                <div class="option" data-value="TV Dramas">TV Dramas</div>
-                <div class="option" data-value="TV Mysteries">TV Mysteries</div>
-                <div class="option" data-value="Crime TV Shows">Crime TV Shows</div>
-                <div class="option" data-value="TV Action & Adventure">TV Action & Adventure</div>
-                <div class="option" data-value="Docuseries">Docuseries</div>
-                <div class="option" data-value="Reality TV">Reality TV</div>
-                <div class="option" data-value="Romantic TV Shows">Romantic TV Shows</div>
-                <div class="option" data-value="TV Comedies">TV Comedies</div>
-                <div class="option" data-value="TV Horror">TV Horror</div>
-                <div class="option" data-value="Children & Family Movies">Children & Family Movies</div>
-                <div class="option" data-value="Dramas">Dramas</div>
-                <div class="option" data-value="Independent Movies">Independent Movies</div>
-                <div class="option" data-value="International Movies">International Movies</div>
-                <div class="option" data-value="British TV Shows">British TV Shows</div>
-                <div class="option" data-value="Comedies">Comedies</div>
-                <div class="option" data-value="Spanish-Language TV Shows">Spanish-Language TV Shows</div>
-                <div class="option" data-value="Thrillers">Thrillers</div>
-                <div class="option" data-value="Romantic Movies">Romantic Movies</div>
-                <div class="option" data-value="Music & Musicals">Music & Musicals</div>
-                <div class="option" data-value="Horror Movies">Horror Movies</div>
-                <div class="option" data-value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</div>
-                <div class="option" data-value="TV Thrillers">TV Thrillers</div>
-                <div class="option" data-value="Kids' TV">Kids' TV</div>
-                <div class="option" data-value="Action & Adventure">Action & Adventure</div>
-                <div class="option" data-value="TV Sci-Fi & Fantasy">TV Sci-Fi & Fantasy</div>
-                <div class="option" data-value="Classic Movies">Classic Movies</div>
-                <div class="option" data-value="Anime Features">Anime Features</div>
-                <div class="option" data-value="Sports Movies">Sports Movies</div>
-                <div class="option" data-value="Anime Series">Anime Series</div>
-                <div class="option" data-value="Korean TV Shows">Korean TV Shows</div>
-                <div class="option" data-value="Science & Nature TV">Science & Nature TV</div>
-                <div class="option" data-value="Teen TV Shows">Teen TV Shows</div>
-                <div class="option" data-value="Cult Movies">Cult Movies</div>
-                <div class="option" data-value="TV Shows">TV Shows</div>
-                <div class="option" data-value="Faith & Spirituality">Faith & Spirituality</div>
-                <div class="option" data-value="LGBTQ Movies">LGBTQ Movies</div>
-                <div class="option" data-value="Stand-Up Comedy">Stand-Up Comedy</div>
-                <div class="option" data-value="Movies">Movies</div>
-                <div class="option" data-value="Stand-Up Comedy & Talk Shows">Stand-Up Comedy & Talk Shows</div>
-                <div class="option" data-value="Classic & Cult TV">Classic & Cult TV</div>
+                <!-- Dropdown 3 -->
+                <div class="dropdown-container">
+                    <div class="dropdown-button" id="dropdown-button-3" onclick="toggleDropdown('dropdown-3')">Select countries</div>
+                    <div class="dropdown" id="dropdown-3">
+                        <div class="option" data-value="United States">United States</div>
+                        <div class="option" data-value="India">India</div>
+                        <div class="option" data-value="United Kingdom">United Kingdom</div>
+                        <div class="option" data-value="Japan">Japan</div>
+                        <div class="option" data-value="South Korea">South Korea</div>
+                        <div class="option" data-value="Canada">Canada</div>
+                        <div class="option" data-value="Spain">Spain</div>
+                        <div class="option" data-value="France">France</div>
+                        <div class="option" data-value="Mexico">Mexico</div>
+                        <div class="option" data-value="Egypt">Egypt</div>
+                    </div>
+                </div>
+                <div id="selected-options-container-3"></div>
             </div>
         </div>
-        <div id="selected-options-container-1"></div>
 
-<br>
-        <!-- Dropdown 2 -->
-        <div class="dropdown-container">
-            <div class="dropdown-button" id="dropdown-button-2" onclick="toggleDropdown('dropdown-2')">Select release years</div>
-            <div class="dropdown" id="dropdown-2">
-                <div class="option" data-value="2021">2021</div>
-                <div class="option" data-value="2020">2020</div>
-                <div class="option" data-value="2019">2019</div>
-                <div class="option" data-value="2018">2018</div>
-                <div class="option" data-value="2017">2017</div>
-                <div class="option" data-value="2016">2016</div>
-                <div class="option" data-value="2015">2015</div>
-                <div class="option" data-value="2014">2014</div>
-                <div class="option" data-value="2013">2013</div>
-                <div class="option" data-value="2012">2012</div>
-                <div class="option" data-value="2011">2011</div>
-                <div class="option" data-value="2010">2010</div>
-                <div class="option" data-value="2009">2009</div>
-                <div class="option" data-value="2008">2008</div>
-                <div class="option" data-value="2007">2007</div>
-                <div class="option" data-value="2006">2006</div>
-                <div class="option" data-value="2005">2005</div>
-                <div class="option" data-value="2004">2004</div>
-                <div class="option" data-value="2003">2003</div>
-                <div class="option" data-value="2002">2002</div>
-                <div class="option" data-value="2001">2001</div>
-                <div class="option" data-value="2000">2000</div>
-                <div class="option" data-value="1999">1999</div>
-                <div class="option" data-value="1998">1998</div>
-                <div class="option" data-value="1997">1997</div>
-                <div class="option" data-value="1996">1996</div>
-                <div class="option" data-value="1995">1995</div>
-                <div class="option" data-value="1994">1994</div>
-                <div class="option" data-value="1993">1993</div>
-                <div class="option" data-value="1992">1992</div>
-                <div class="option" data-value="1991">1991</div>
-                <div class="option" data-value="1990">1990</div>
-                <div class="option" data-value="1989">1989</div>
-                <div class="option" data-value="1988">1988</div>
-                <div class="option" data-value="1987">1987</div>
-                <div class="option" data-value="1986">1986</div>
-                <div class="option" data-value="1985">1985</div>
-                <div class="option" data-value="1984">1984</div>
-                <div class="option" data-value="1983">1983</div>
-                <div class="option" data-value="1982">1982</div>
-                <div class="option" data-value="1981">1981</div>
-                <div class="option" data-value="1980">1980</div>
-                <div class="option" data-value="1979">1979</div>
-                <div class="option" data-value="1978">1978</div>
-                <div class="option" data-value="1977">1977</div>
-                <div class="option" data-value="1976">1976</div>
-                <div class="option" data-value="1975">1975</div>
-                <div class="option" data-value="1974">1974</div>
-                <div class="option" data-value="1973">1973</div>
-                <div class="option" data-value="1972">1972</div>
-                <div class="option" data-value="1971">1971</div>
-                <div class="option" data-value="1970">1970</div>
-                <div class="option" data-value="1969">1969</div>
-                <div class="option" data-value="1968">1968</div>
-                <div class="option" data-value="1967">1967</div>
-                <div class="option" data-value="1966">1966</div>
-                <div class="option" data-value="1965">1965</div>
-                <div class="option" data-value="1964">1964</div>
-                <div class="option" data-value="1963">1963</div>
-                <div class="option" data-value="1962">1962</div>
-                <div class="option" data-value="1961">1961</div>
-                <div class="option" data-value="1960">1960</div>
-                <div class="option" data-value="1959">1959</div>
-                <div class="option" data-value="1958">1958</div>
-                <div class="option" data-value="1956">1956</div>
-                <div class="option" data-value="1955">1955</div>
-                <div class="option" data-value="1954">1954</div>
-                <div class="option" data-value="1947">1947</div>
-                <div class="option" data-value="1946">1946</div>
-                <div class="option" data-value="1945">1945</div>
-                <div class="option" data-value="1944">1944</div>
-                <div class="option" data-value="1943">1943</div>
-                <div class="option" data-value="1942">1942</div>
-                <div class="option" data-value="1925">1925</div>
-            </div>
+        <div class="checkboxes">
+            <label><input type="checkbox" name="type1" value="TV show"> TV show</label>
+            <input type="text" placeholder="Number of seasons" name="Number of seasons">
+            <label><input type="checkbox" name="type1" value="Movie"> Movie</label>
+            <input type="text" placeholder="Movie length (± 10 min)" name="Movie length">
         </div>
-        <div id="selected-options-container-2"></div>
-<br>
-        <!-- Dropdown 3 -->
-        <div class="dropdown-container">
-            <div class="dropdown-button" id="dropdown-button-3" onclick="toggleDropdown('dropdown-3')">Select countries</div>
-            <div class="dropdown" id="dropdown-3">
-                <div class="option" data-value="United States">United States</div>
-                <div class="option" data-value="India">India</div>
-                <div class="option" data-value="United Kingdom">United Kingdom</div>
-                <div class="option" data-value="Japan">Japan</div>
-                <div class="option" data-value="South Korea">South Korea</div>
-                <div class="option" data-value="Canada">Canada</div>
-                <div class="option" data-value="Spain">Spain</div>
-                <div class="option" data-value="France">France</div>
-                <div class="option" data-value="Mexico">Mexico</div>
-                <div class="option" data-value="Egypt">Egypt</div>
-            </div>
-        </div>
-        <div id="selected-options-container-3"></div>
 
-        <br>
+        <div class="age-rating">
+            <label>Select age rating:</label>
+            <label><input type="checkbox" name="age_rating" value="Little kids"> Little kids</label>
+            <label><input type="checkbox" name="age_rating" value="Older kids"> Older kids</label>
+            <label><input type="checkbox" name="age_rating" value="Teens"> Teens</label>
+            <label><input type="checkbox" name="age_rating" value="Mature"> Mature</label>
+        </div>
+
         <button type="submit">Search</button>
     </form>
 
+    <p>testing {{ test }}</p>
+    query {{ query }}<br><br>
+    request_POST {{ request_POST }}
+    <h2>result {{ result }}</h2>
+
     <div id="selected-options"></div>
+
+     <div class="search-results">
+        {% block content %} {% endblock %}
+    </div>
 
     <script>
         function toggleDropdown(dropdownId) {
@@ -255,7 +336,7 @@
         function updateButtonLabel(buttonId, dropdownId) {
             const selectedOptions = getSelectedOptions(dropdownId);
             const button = document.getElementById(buttonId);
-            button.innerText = selectedOptions.length > 0 ? selectedOptions.join(', ') : 'Wybierz opcje';
+            button.innerText = selectedOptions.length > 0 ? selectedOptions.join(', ') : 'Select options';
         }
 
         function updateHiddenInputs(inputContainerId, dropdownId, inputName) {
@@ -282,8 +363,5 @@
             });
         });
     </script>
-
-<p>testing {{ test }}</p>
-<h2>result {{ result }}</h2>
-
-{% block content %} {% endblock %}
+</body>
+</html>

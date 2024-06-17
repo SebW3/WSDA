@@ -1,15 +1,18 @@
 {% extends 'home.html' %}
 
 {% block content %}
-	query: {{ query }}
-    {% if result %}
-		<h1>You Searched For {{ searched }}</h1>
-		<br/>
-		{% for item in result %}
-			<b>{{ item }}</b> {{ item.type1 }} {{ item.listed_in}} {{ item.duration }} <br>
-		{% endfor %}
-	{% else %}
-		<h1>Hey! You Forgot To Search...</h1>
-	{% endif %}
-	{{ test1 }}
+<a href="{% url 'home' %}">home page</a><br>
+    <div class="result-list">
+        query: {{ query }}
+        {% if result %}
+            <h1>You Searched For {{ searched }}</h1>
+            <br/>
+            {% for item in result %}
+                <b>{{ item }}</b> {{ item.type1 }} {{ item.listed_in}} {{ item.duration }} <br>
+            {% endfor %}
+        {% else %}
+            <h1>Hey! You Forgot To Search...</h1>
+        {% endif %}
+        {{ test1 }}
+    </div>
 {% endblock %}
