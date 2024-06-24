@@ -3,9 +3,6 @@
 {% block content %}
 <a href="{% url 'home' %}" class="btn btn-primary">Home Page</a><br>
 <div class="result-list">
-    <div class="query-info">
-        Query: <span class="query-text">{{ query }}</span>
-    </div>
     {% if result %}
         <h1>You Searched For <span class="searched-text">{{ searched }}</span></h1>
         <br/>
@@ -43,14 +40,6 @@
     .result-list {
         margin: 20px;
         font-family: Arial, sans-serif;
-    }
-    .query-info {
-        font-size: 1.2em;
-        margin-bottom: 10px;
-    }
-    .query-text {
-        color: #333;
-        font-weight: bold;
     }
     .searched-text {
         color: #007bff;
