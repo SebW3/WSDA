@@ -1,18 +1,91 @@
 {% extends 'home.html' %}
 
 {% block content %}
-<a href="{% url 'home' %}">home page</a><br>
-    <div class="result-list">
-        query: {{ query }}
-        {% if result %}
-            <h1>You Searched For {{ searched }}</h1>
-            <br/>
-            {% for item in result %}
-                <b>{{ item }}</b> {{ item.type1 }} {{ item.listed_in}} {{ item.duration }} <br>
-            {% endfor %}
-        {% else %}
-            <h1>Hey! You Forgot To Search...</h1>
-        {% endif %}
-        {{ test1 }}
+<a href="{% url 'home' %}" class="btn btn-primary">Home Page</a><br>
+<div class="result-list">
+    <div class="query-info">
+        Query: <span class="query-text">{{ query }}</span>
     </div>
+    {% if result %}
+        <h1>You Searched For <span class="searched-text">{{ searched }}</span></h1>
+        <br/>
+        <div class="result-items">
+            {% for item in result %}
+                <div class="result-item">
+                    <h2 class="item-title">{{ item }}</h2>
+                    <p>
+                        <strong>Type:</strong> {{ item.type1 }}
+                        <strong>Duration:</strong> {{ item.duration }}
+                    </p>
+                    <p>
+                        <strong>Genre:</strong> {{ item.listed_in }}</p>
+                    <p>
+                        <strong>Release year:</strong> {{ item.release_year }}
+                        {% if item.country != None %}
+                        <strong>Made in:</strong> {{ item.country }}
+                        {% endif %}
+                        <strong>Age rating:</strong> {{ item.rating }}
+                    </p>
+                    <p>
+                        <strong>Description:</strong> {{ item.description }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1>Hey! You Forgot To Search...</h1>
+    {% endif %}
+    <div class="test1-info">{{ test1 }}</div>
+</div>
 {% endblock %}
+
+<style>
+    .result-list {
+        margin: 20px;
+        font-family: Arial, sans-serif;
+    }
+    .query-info {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+    .query-text {
+        color: #333;
+        font-weight: bold;
+    }
+    .searched-text {
+        color: #007bff;
+    }
+    .result-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .result-item {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .item-title {
+        font-size: 1.5em;
+        color: #343a40;
+    }
+    .btn-primary {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    .test1-info {
+        margin-top: 20px;
+        font-size: 1em;
+        color: #6c757d;
+    }
+</style>

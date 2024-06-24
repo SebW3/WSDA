@@ -26,11 +26,16 @@ body {
 }
 
 .form-group .form-control {
-    margin-right: 10px;
     padding: 10px;
     border: 2px solid black;
     border-radius: 5px;
     width: 200px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: white;
+    cursor: pointer;
+    margin-top: 0px;
+    margin-right: -4px;
 }
 
 .dropdowns {
@@ -109,16 +114,71 @@ button:hover {
     text-align: left;
 }
 
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-group label,
+.filter-group input,
+.filter-group select {
+    display: block;
+    margin: 5px 0;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
 </style>
 </head>
 <body>
+    <div class="form-container">
     <form class="search-form" method="POST" action="{% url 'search_result' %}">
         {% csrf_token %}
+                    <div class="form-row">
         <div class="form-group">
+                        <div class="filter-group">
             <input type="text" placeholder="Name" name="searched" class="form-control">
 
-            <div class="dropdowns">
                 <!-- Dropdown 1 -->
+
+
                 <div class="dropdown-container">
                     <div class="dropdown-button" id="dropdown-button-1" onclick="toggleDropdown('dropdown-1')">Select genres</div>
                     <div class="dropdown" id="dropdown-1">
@@ -167,6 +227,8 @@ button:hover {
                     </div>
                 </div>
                 <div id="selected-options-container-1"></div>
+<!--                        </div>-->
+<!--                                        <div class="filter-group">-->
 
                 <!-- Dropdown 2 -->
                 <div class="dropdown-container">
@@ -249,6 +311,7 @@ button:hover {
                     </div>
                 </div>
                 <div id="selected-options-container-2"></div>
+<!--                                        </div>            <div class="filter-group">-->
 
                 <!-- Dropdown 3 -->
                 <div class="dropdown-container">
@@ -266,8 +329,9 @@ button:hover {
                         <div class="option" data-value="Egypt">Egypt</div>
                     </div>
                 </div>
-                <div id="selected-options-container-3"></div>
-            </div>
+             <div id="selected-options-container-3"></div>
+
+        </div></div>
         </div>
 
         <div class="checkboxes">
@@ -287,6 +351,7 @@ button:hover {
 
         <button type="submit">Search</button>
     </form>
+    </div>
 
     <p>testing {{ test }}</p>
     query {{ query }}<br><br>
