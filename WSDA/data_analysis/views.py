@@ -30,9 +30,11 @@ def search_result(request):
             length = request.POST["Movie length"]
             number = request.POST["Number of seasons"]
             if len(length) == 1:
-                query &= Q(duration__regex=f'^[0123456789] ') | Q(duration__regex=f'^{number} .eason*')
+                query &= (Q(duration__regex=f'^[0123456789] ') & Q(type1="Movie")) | (Q(duration__regex=f'^{number} .eason*') & Q(type1="TV Show"))
+            elif len(length) == 0:
+                query &= (Q(duration__regex=f'^{length[:-1]}[0123456789] ') & Q(type1="Movie")) | (Q(duration__regex=f'^{number} .eason*') & Q(type1="TV Show"))
             else:
-                query &= Q(duration__regex=f'^{length[:-1]}[0123456789] ') | Q(duration__regex=f'^{str(int(length) - 10)[:-1]}[0123456789] ') | Q(duration__regex=f'^{number} .eason*')
+                query &= (Q(duration__regex=f'^{length[:-1]}[0123456789] ') & Q(type1="Movie")) | (Q(duration__regex=f'^{str(int(length) - 10)[:-1]}[0123456789] ') & Q(type1="TV Show")) | (Q(duration__regex=f'^{number} .eason*') & Q(type1="TV Show"))
 
 
         searched = request.POST["searched"]
