@@ -3,7 +3,8 @@
 {% block content %}
 <a href="{% url 'home' %}" class="btn btn-primary">Home Page</a><br>
 <div class="result-list">
-    {% if result %}
+    {% if "No content with these filters" not in result %}
+    <p>{{ result }}</p>
         <h1>You Searched For <span class="searched-text">{{ searched }}</span></h1>
         <br/>
         <div class="result-items">
@@ -29,6 +30,8 @@
                 </div>
             {% endfor %}
         </div>
+    {% elif "No content with these filters" in result %}
+        <h1>No content with these filters</h1>
     {% else %}
         <h1>Hey! You Forgot To Search...</h1>
     {% endif %}
