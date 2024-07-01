@@ -9,6 +9,19 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import json
+import os
+from django.core.exceptions import ImproperlyConfigured
+
+with open(os.path.join('WSDA/', 'secrets.json')) as secrets_file:
+    secrets = json.load(secrets_file)
+
+def get_secret(setting, secrets=secrets):
+    """Get secret setting or fail with ImproperlyConfigured"""
+    try:
+        return secrets[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
 
 from pathlib import Path
 
@@ -74,10 +87,15 @@ WSGI_APPLICATION = 'WSDA.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+SECRET_KEY = get_secret('SECRET_KEY')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'netflix',
+        'USER': 'root',
+        'PASSWORD': get_secret('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT':'3306',
     }
 }
 
