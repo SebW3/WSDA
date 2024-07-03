@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
+import pandas as pd
 from .models import Entry
 
 # Create your views here.
@@ -103,4 +104,31 @@ def search_result(request):
         return render(request, "search_result.html")
 
 def graphs(request):
-    return render(request, "graphs.html")
+    test = None
+    datapoints = [
+        { "label": "Online Store",  "y": 27  },
+        { "label": "Offline Store", "y": 25  },
+        { "label": "Discounted Sale",  "y": 30  },
+        { "label": "B2B Channel", "y": 8  },
+        { "label": "Others",  "y": 10  }
+    ]
+
+    df = pd.read_csv("../netflix_titles.csv")
+    df.drop(columns=["show_id"], inplace=True)
+    type_counts = df['type'].value_counts()
+    datapoints = [{"label": type_label, "y": int(count)} for type_label, count in type_counts.items()]
+
+    # Prepare data for Chart.js
+    labels = type_counts.index.tolist()
+    data = type_counts.values.tolist()
+    colors = ['#000000', '#fd0000'] + ['#%06x' % (i * 0x111111) for i in
+                                       range(len(type_counts) - 2)]  # Extend colors if needed
+    total = sum(data)
+    percentages = [(count / total) * 100 for count in data]
+
+    return render(request, "graphs.html", {"test" : test, "datapoints" : datapoints,
+        "labels": labels,
+        "data": data,
+        "percentages" : percentages,
+        "colors": colors
+    })
