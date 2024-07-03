@@ -101,3 +101,6 @@ def search_result(request):
         return render(request, "search_result.html", {"searched" : searched, "result" : result, "test" : test, "query" : query, "request_POST" : request.POST})
     else:
         return render(request, "search_result.html")
+
+def graphs(request):
+    return render(request, "graphs.html")
