@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.db.models import Q
 import pandas as pd
+import plotly.figure_factory as ff
+import plotly.graph_objs as go
+import plotly
+import json
 from .models import Entry
 
 # Create your views here.
@@ -131,6 +135,37 @@ def graphs(request):
     hbar_data = genre_counts.values.tolist()
     hbar_colors = ['#df0000'] + ['#%06x' % (i * 0x111111) for i in range(len(genre_counts) - 1)]
 
+    # Prepare data for the distribution plot
+    movies = df[df['type'] == 'Movie'].copy()
+    movies['duration'] = movies['duration'].str.replace(' min', '')
+    movies_duration = movies['duration'].astype(float).dropna()
+    x = movies_duration.values
+    hist_data = [x]
+
+    fig = ff.create_distplot(hist_data, ['Duration'], show_rug=False)
+    mean_value = movies_duration.mean()
+    fig.add_trace(go.Scatter(
+        x=[mean_value, mean_value],
+        y=[0, 0.025],
+        mode="lines",
+        name="Mean",
+        line=dict(color="red", width=2, dash="dash")
+    ))
+
+    fig.update_layout(
+        width=900,
+        height=600,
+        paper_bgcolor='#2c2c2c',
+        plot_bgcolor='#2c2c2c',
+        font=dict(color='white'),
+        showlegend=True,
+        xaxis=dict(title='Duration (minutes)', titlefont=dict(size=14, color='white'), tickfont=dict(color='white')),
+        margin=dict(l=0, r=0, t=40, b=40)
+    )
+
+    distplot_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+
     return render(request, "graphs.html", {"test" : test,
             "pie_labels": pie_labels,
             "percentages": percentages,
@@ -140,5 +175,6 @@ def graphs(request):
            "bar_colors": bar_colors,
            "hbar_labels": hbar_labels,
            "hbar_data": hbar_data,
-           "hbar_colors": hbar_colors
+           "hbar_colors": hbar_colors,
+           "distplot_json": distplot_json
         })

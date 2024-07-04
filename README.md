@@ -4,6 +4,7 @@ WebApp SQL Data Analysis
 ### libs
 - mysqlclient
 - django
+- plotly
 
 ## Setup
 1. Create "secrets.json" file with format below and fill it with data
