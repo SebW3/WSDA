@@ -25,17 +25,24 @@
 <p>test = {{ test }}</p>
     <h1>Distribution of Content Types on Netflix</h1>
     <div class="chart-container">
-        <canvas id="myPieChart"></canvas>
+        <canvas id="myPieChart" class="chart"></canvas>
     </div>
+    <h1>Content per country</h1>
+    <div class="chart-container">
+        <canvas id="myBarChart" class="chart"></canvas>
+    </div>
+
     <script>
-        const ctx = document.getElementById('myPieChart').getContext('2d');
-        const myPieChart = new Chart(ctx, {
+        const pieCtx = document.getElementById('myPieChart').getContext('2d');
+        const barCtx = document.getElementById('myBarChart').getContext('2d');
+
+        const pieChart = new Chart(pieCtx, {
             type: 'pie',
             data: {
-                labels: {{ labels|safe }},
+                labels: {{ pie_labels|safe }},
                 datasets: [{
                     data: {{ percentages|safe }},
-                    backgroundColor: {{ colors|safe }},
+                    backgroundColor: {{ pie_colors|safe }},
                     hoverOffset: 4
                 }]
             },
@@ -65,6 +72,67 @@
                     font: {
                         size: 20,
                         weight: 'bold'
+                    }
+                }
+            }
+        });
+
+        const barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ bar_labels|safe }},
+                datasets: [{
+                    label: 'Count',
+                    data: {{ bar_data|safe }},
+                    backgroundColor: {{ bar_colors|safe }},
+                    borderColor: 'rgba(255, 255, 255, 0.8)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Country',
+                            color: 'white',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Count',
+                            color: 'white',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
                     }
                 }
             }

@@ -105,30 +105,31 @@ def search_result(request):
 
 def graphs(request):
     test = None
-    datapoints = [
-        { "label": "Online Store",  "y": 27  },
-        { "label": "Offline Store", "y": 25  },
-        { "label": "Discounted Sale",  "y": 30  },
-        { "label": "B2B Channel", "y": 8  },
-        { "label": "Others",  "y": 10  }
-    ]
-
     df = pd.read_csv("../netflix_titles.csv")
     df.drop(columns=["show_id"], inplace=True)
+
     type_counts = df['type'].value_counts()
-    datapoints = [{"label": type_label, "y": int(count)} for type_label, count in type_counts.items()]
 
-    # Prepare data for Chart.js
-    labels = type_counts.index.tolist()
-    data = type_counts.values.tolist()
-    colors = ['#000000', '#fd0000'] + ['#%06x' % (i * 0x111111) for i in
-                                       range(len(type_counts) - 2)]  # Extend colors if needed
-    total = sum(data)
-    percentages = [(count / total) * 100 for count in data]
+    # Prepare data for Chart.js pie chart
+    pie_labels = type_counts.index.tolist()
+    pie_data = type_counts.values.tolist()
+    pie_colors = ['#000000', '#fd0000'] + ['#%06x' % (i * 0x111111) for i in range(len(type_counts) - 2)]  # Extend colors if needed
 
-    return render(request, "graphs.html", {"test" : test, "datapoints" : datapoints,
-        "labels": labels,
-        "data": data,
-        "percentages" : percentages,
-        "colors": colors
-    })
+    # Calculate percentages for pie chart
+    total = sum(pie_data)
+    percentages = [(count / total) * 100 for count in pie_data]
+
+    # Get the top 10 countries with the most content for bar chart
+    country_counts = df['country'].value_counts().head(10)
+    bar_labels = country_counts.index.tolist()
+    bar_data = country_counts.values.tolist()
+    bar_colors = ['#fd0000'] + ['#%06x' % (i * 0x111111) for i in range(len(country_counts) - 1)]
+
+    return render(request, "graphs.html", {"test" : test,
+            "pie_labels": pie_labels,
+            "percentages": percentages,
+            "pie_colors": pie_colors,
+            "bar_labels": bar_labels,
+            "bar_data": bar_data,
+            "bar_colors": bar_colors
+        })
