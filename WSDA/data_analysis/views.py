@@ -125,11 +125,20 @@ def graphs(request):
     bar_data = country_counts.values.tolist()
     bar_colors = ['#fd0000'] + ['#%06x' % (i * 0x111111) for i in range(len(country_counts) - 1)]
 
+    # Prepare data for horizontal bar chart
+    genre_counts = df['listed_in'].str.split(', ', expand=True).stack().value_counts().head(10)
+    hbar_labels = genre_counts.index.tolist()
+    hbar_data = genre_counts.values.tolist()
+    hbar_colors = ['#df0000'] + ['#%06x' % (i * 0x111111) for i in range(len(genre_counts) - 1)]
+
     return render(request, "graphs.html", {"test" : test,
             "pie_labels": pie_labels,
             "percentages": percentages,
             "pie_colors": pie_colors,
             "bar_labels": bar_labels,
-            "bar_data": bar_data,
-            "bar_colors": bar_colors
+           "bar_data": bar_data,
+           "bar_colors": bar_colors,
+           "hbar_labels": hbar_labels,
+           "hbar_data": hbar_data,
+           "hbar_colors": hbar_colors
         })

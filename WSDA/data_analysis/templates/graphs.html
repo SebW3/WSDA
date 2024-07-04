@@ -31,10 +31,15 @@
     <div class="chart-container">
         <canvas id="myBarChart" class="chart"></canvas>
     </div>
-
+    <h1>Top 10 genres</h1>
+    <div class="chart-container">
+        <canvas id="myHorizontalBarChart" class="chart"></canvas>
+    </div>
     <script>
         const pieCtx = document.getElementById('myPieChart').getContext('2d');
         const barCtx = document.getElementById('myBarChart').getContext('2d');
+        const hbarCtx = document.getElementById('myHorizontalBarChart').getContext('2d');
+
 
         const pieChart = new Chart(pieCtx, {
             type: 'pie',
@@ -127,6 +132,68 @@
                         title: {
                             display: true,
                             text: 'Count',
+                            color: 'white',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const hbarChart = new Chart(hbarCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ hbar_labels|safe }},
+                datasets: [{
+                    label: 'Count',
+                    data: {{ hbar_data|safe }},
+                    backgroundColor: {{ hbar_colors|safe }},
+                    borderColor: 'rgba(255, 255, 255, 0.8)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Count',
+                            color: 'white',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Genre',
                             color: 'white',
                             font: {
                                 size: 14,
