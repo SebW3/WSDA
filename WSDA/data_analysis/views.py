@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.db.models import Q
 import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
 import plotly.figure_factory as ff
 import plotly.graph_objs as go
 import plotly
@@ -165,6 +169,18 @@ def graphs(request):
 
     distplot_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
+    # world map
+    fig, ax = plt.subplots()
+    ax.plot([1, 2, 3, 4], [1, 4, 2, 3])
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+
 
     return render(request, "graphs.html", {"test" : test,
             "pie_labels": pie_labels,
@@ -176,5 +192,6 @@ def graphs(request):
            "hbar_labels": hbar_labels,
            "hbar_data": hbar_data,
            "hbar_colors": hbar_colors,
-           "distplot_json": distplot_json
+           "distplot_json": distplot_json,
+           "world_map": uri
         })
